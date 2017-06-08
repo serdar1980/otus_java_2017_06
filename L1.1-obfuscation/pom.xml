@@ -29,7 +29,10 @@
         <net.sf.opencsv.version>2.3</net.sf.opencsv.version>
         <project.mainClass>ru.otus.lottery.Main</project.mainClass>
         <project.Jar.Name>${name}</project.Jar.Name>
-    </properties>
+        <java.bootstrap.classes>${java.home}/lib/rt.jar</java.bootstrap.classes>
+        <java.cryptographic.extension.classes>${java.home}/lib/jce.jar</java.cryptographic.extension.classes>
+        <java.secure.socket.extension.classes>${java.home}/lib/jsse.jar</java.secure.socket.extension.classes>
+   </properties>
 
     <dependencies>
         <dependency>
@@ -102,16 +105,26 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <proguardVersion>4.5</proguardVersion>
+                    <obfuscate>true</obfuscate>
+                    <injar>${project.build.finalName}.jar</injar>
+                    <outjar>${project.build.finalName}-small.jar</outjar>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                    <options>
+                        <option>-keep public class * { *; }</option>
+                    </options>
+                    <proguardVersion>5.0</proguardVersion>
                     <libs>
-                        <lib>${java.home}/lib/rt.jar</lib>
+                        <lib>${java.bootstrap.classes}</lib>
+                        <lib>${java.cryptographic.extension.classes}</lib>
+                        <lib>${java.secure.socket.extension.classes}</lib>
                     </libs>
-                </configuration>
+                    <obfuscate>true</obfuscate>
+                    </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>net.sf.proguard</groupId>
                         <artifactId>proguard-base</artifactId>
-                        <version>4.5</version>
+                        <version>5.0</version>
                         <scope>runtime</scope>
                     </dependency>
                 </dependencies>
