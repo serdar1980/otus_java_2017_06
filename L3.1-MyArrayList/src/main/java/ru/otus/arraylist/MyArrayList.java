@@ -284,6 +284,7 @@ public class MyArrayList<T> implements List<T> {
     @Override
     public void add(T t) {
       MyArrayList.this.add(t);
+      cursor++;
     }
 
   }
