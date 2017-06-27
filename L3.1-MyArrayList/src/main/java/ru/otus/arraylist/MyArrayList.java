@@ -28,8 +28,6 @@ public class MyArrayList<T> implements List<T> {
     this.size = 0;
     this.capacity = capacity;
     elements = new Object[capacity];
-    Supplier<Object> supplier = () -> new Object();
-    elements = Stream.generate(supplier).limit(capacity).toArray(Object[]::new);
   }
 
   @Override
@@ -39,7 +37,7 @@ public class MyArrayList<T> implements List<T> {
 
   @Override
   public boolean isEmpty() {
-    return (elements == null) ? true : false;
+    return size == 0;
   }
 
   @Override
