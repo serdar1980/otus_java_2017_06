@@ -47,26 +47,6 @@
     <build>
         <finalName>${project.Jar.Name}</finalName>
         <plugins>
-            <!-- <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-jar-plugin</artifactId>
-               <executions>
-                   <execution>
-                       <id>maven-assembly-plugin</id>
-                       <phase>packageSmall</phase>
-                       <goals>
-                           <goal>jar</goal>
-                       </goals>
-                   </execution>
-               </executions>
-               <configuration>
-                   <archive>
-                       <manifest>
-                           <mainClass>ru.otus.lottery.Main</mainClass>
-                       </manifest>
-                   </archive>
-               </configuration>
-           </plugin-->
             <!-- Copy libs to jar -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
