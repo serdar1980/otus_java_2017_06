@@ -12,26 +12,26 @@ public class TestFrameworkTest {
     private int after=0;
     private int test=0;
     @Before
-    public Start(){
+    public void Start(){
         after =1;
         before =1;
     }
     @After
-    public End(){
-        before=0
+    public void End(){
+        before=0;
         after=0;
     }
 
     @Test
-    public firstTest(){
+    public void firstTest(){
         test=1;
     }
     @Test
-    public secondTest(){
+    public void secondTest(){
         test=1;
     }
     @Test
-    public thirdTest(){
+    public void thirdTest(){
         test=1;
     }
 }
