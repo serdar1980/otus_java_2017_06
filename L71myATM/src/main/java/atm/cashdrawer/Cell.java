@@ -62,4 +62,14 @@ public class Cell implements CellI {
         }
         return clone;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Note: ")
+                .append(this.note)
+                .append(" Count: ")
+                .append(this.count);
+        return sb.toString();
+    }
 }

@@ -1,6 +1,7 @@
 package atm;
 
 import atm.cashdrawer.Cell;
+import atm.cashdrawer.CellComparator;
 import atm.cashdrawer.CellI;
 import atm.output.OutStategyI;
 import org.junit.After;
@@ -37,7 +38,7 @@ public class AtmTest {
         }
 
 
-        TreeSet<CellI> cells = new TreeSet<>();
+        TreeSet<CellI> cells = new TreeSet<>(CellComparator.getInstance());
         cells.add(new Cell(100, 1000));
         cells.add(new Cell(500, 1000));
         cells.add(new Cell(1000, 100));

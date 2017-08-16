@@ -1,6 +1,7 @@
 package atm;
 
 import atm.cashdrawer.Cell;
+import atm.cashdrawer.CellComparator;
 import atm.cashdrawer.CellI;
 import atm.output.OutStategyI;
 
@@ -21,7 +22,7 @@ public class ATM implements AtmI {
     }
 
     private TreeSet<CellI> copyCells(TreeSet<CellI> cellsFrom) {
-        TreeSet<CellI> cellsTo = new TreeSet<>();
+        TreeSet<CellI> cellsTo = new TreeSet<>(CellComparator.getInstance());
         Iterator<CellI> iterator = cellsFrom.iterator();
         while (iterator.hasNext()) {
             cellsTo.add(((Cell) iterator.next()).clone());
