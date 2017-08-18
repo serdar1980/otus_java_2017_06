@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.otus.testobject.TestObjectCollection;
-import ru.otus.testobject.TestObjectPrimitive;
-import ru.otus.testobject.TestObjectWithPrimitivesArray;
 
 import java.util.*;
 
@@ -30,13 +28,6 @@ public class ParserTestCollection {
         _map.put("Test", 3);
         _map.put("World", 5);
         initialObj = new TestObjectCollection(_list, _set, _map);
-    }
-
-    @Test
-    public void createObjectWithPrimetiveFromJson() {
-        TestObjectPrimitive res = (TestObjectPrimitive)
-                parser.ObjectFromJson(JSON_STRING);
-        Assert.assertTrue(res.equals(initialObj));
     }
 
     @Test

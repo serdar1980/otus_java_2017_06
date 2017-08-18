@@ -5,11 +5,8 @@ import com.google.gson.GsonBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.otus.testobject.TestObjectCollection;
 import ru.otus.testobject.TestObjectPrimitive;
 import ru.otus.testobject.TestObjectWithRefArray;
-import ru.otus.parser.IParser;
-import ru.otus.parser.Parser;
 
 public class PaerserTestRefArray {
     private static final String JSON_STRING = "{\"_stringArray\":[\"Foo\",\"Bar\",\"Baz\"],\"testObjectPrimitives\":[{\"_byte\":126,\"_char\":\"в\",\"_short\":1123,\"_int\":10,\"_long\":100,\"_float\":4.400000095367432,\"_double\":6.7,\"_boolean\":true},{\"_byte\":126,\"_char\":\"в\",\"_short\":1123,\"_int\":20,\"_long\":200,\"_float\":4.400000095367432,\"_double\":6.7,\"_boolean\":false}]}";
@@ -31,13 +28,6 @@ public class PaerserTestRefArray {
                 new String[]{"Foo", "Bar", "Baz"},
                 new TestObjectPrimitive[]{objectPrimitive, objectPrimitive1}
         );
-    }
-
-    @Test
-    public void createObjectWithPrimetiveFromJson() {
-        TestObjectPrimitive res = (TestObjectPrimitive)
-                parser.ObjectFromJson(JSON_STRING);
-        Assert.assertTrue(res.equals(initialObj));
     }
 
     @Test

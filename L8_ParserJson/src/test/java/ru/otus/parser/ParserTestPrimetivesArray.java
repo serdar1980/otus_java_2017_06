@@ -5,10 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.otus.testobject.TestObjectPrimitive;
 import ru.otus.testobject.TestObjectWithPrimitivesArray;
-import ru.otus.parser.IParser;
-import ru.otus.parser.Parser;
 
 public class ParserTestPrimetivesArray {
     private static final String JSON_STRING = "{\"_intArray\":[1,2,3,4,5,6],\"_doubleArray\":[4.5,5.6],\"_floatArray\":[9.5,9.6],\"_booleanArray\":[true,false],\"_byteArray\":[1,2],\"_charArray\":[\"c\",\"g\"],\"_byte\":126,\"_char\":\"в\",\"_short\":1123,\"_int\":10,\"_long\":100,\"_float\":4.400000095367432,\"_double\":6.7,\"_boolean\":true}";
@@ -30,13 +27,6 @@ public class ParserTestPrimetivesArray {
                 4.4F, 6.7D, true, _intArray, _doubleArray,
                 _floatArray, _booleanArray,
                 _byteArray, _charArray);
-    }
-
-    @Test
-    public void createObjectWithPrimetiveFromJson() {
-        TestObjectPrimitive res = (TestObjectPrimitive)
-                parser.ObjectFromJson(JSON_STRING);
-        Assert.assertTrue(res.equals(initialObj));
     }
 
     @Test
