@@ -1,4 +1,4 @@
-package ru.otus;
+package ru.otus.testobject;
 
 import java.util.Arrays;
 

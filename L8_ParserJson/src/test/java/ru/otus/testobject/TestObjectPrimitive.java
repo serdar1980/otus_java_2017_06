@@ -1,4 +1,4 @@
-package ru.otus;
+package ru.otus.testobject;
 
 public class TestObjectPrimitive {
     private byte _byte;

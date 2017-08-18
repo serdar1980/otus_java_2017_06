@@ -1,5 +1,6 @@
 package utils;
 
+import javax.print.DocFlavor;
 import java.util.Arrays;
 
 public enum Types {
@@ -12,7 +13,8 @@ public enum Types {
     LONG,
     DOUBLE,
     ARRAY,
-    OBJECT;
+    OBJECT,
+    STRING;
 
     private static final String ALL_TYPES_STRING = Arrays.toString(Types.values());
 
