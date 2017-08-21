@@ -1,6 +1,5 @@
 package utils;
 
-import javax.print.DocFlavor;
 import java.util.Arrays;
 
 public enum Types {

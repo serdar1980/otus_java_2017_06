@@ -2,14 +2,15 @@ package ru.otus.parser;
 
 import utils.Types;
 
-import javax.json.*;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonBuilderFactory;
+import javax.json.JsonObjectBuilder;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import static sun.management.GcInfoCompositeData.cast;
 
 public class Parser implements IParser {
     Map<String, Object> config = new HashMap<String, Object>();
@@ -29,11 +30,7 @@ public class Parser implements IParser {
             Field[] fields = current.getDeclaredFields();
             for (Field field : fields) {
                 System.out.println(field.getName());
-                if (field.getType().isPrimitive()) {
-                    addToJsonObjectBuilder(objectBuilder, field, obj);
-                } else {
-                    addToJsonObjectBuilder(objectBuilder, field, obj);
-                }
+                addToJsonObjectBuilder(objectBuilder, field, obj);
             }
             current = current.getSuperclass();
 
@@ -165,16 +162,4 @@ public class Parser implements IParser {
         throw new UnsupportedOperationException("метод не готов");
     }
 
-    /*
-    private String[] jsonArrayToStringArray(JsonArray jsonArray) {
-        int arraySize = jsonArray.size();
-        String[] stringArray = new String[arraySize];
-
-        for(int i=0; i<arraySize; i++) {
-            stringArray[i] = (String) jsonArray.get(i);
-        }
-
-        return stringArray;
-    };
-    */
 }
