@@ -1,7 +1,5 @@
 package ru.otus.parser;
 
-import utils.Types;
-
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
@@ -42,39 +40,43 @@ public class Parser implements IParser {
 
     private void addToJsonObjectBuilder(JsonObjectBuilder value, Field field, Object obj) throws IllegalAccessException, ClassNotFoundException {
         String name = field.getName();
-        Types types = Types.getType(field.getType());
+        String TYPE = field.getType().getSimpleName().toUpperCase();
+        if (field.getType().isArray()) {
+            TYPE = "ARRAY";
+        }
+
         field.setAccessible(true);
-        switch (types) {
-            case BYTE:
+        switch (TYPE) {
+            case "BYTE":
                 value.add(name, field.getByte(obj));
                 break;
-            case BOOLEAN:
+            case "BOOLEAN":
                 value.add(name, field.getBoolean(obj));
                 break;
-            case SHORT:
+            case "SHORT":
                 value.add(name, field.getShort(obj));
                 break;
-            case CHAR:
+            case "CHAR":
                 char c = field.getChar(obj);
                 value.add(name, Character.valueOf(c).toString());
                 break;
-            case INT:
+            case "INT":
                 value.add(name, field.getInt(obj));
                 break;
-            case FLOAT:
+            case "FLOAT":
                 value.add(name, field.getDouble(obj));
                 break;
-            case LONG:
+            case "LONG":
                 value.add(name, field.getLong(obj));
                 break;
-            case DOUBLE:
+            case "DOUBLE":
                 value.add(name, field.getDouble(obj));
                 break;
-            case ARRAY:
+            case "ARRAY":
                 JsonArrayBuilder jsonArray = getJsonArrayBuilder(field.get(obj));
                 value.add(name, jsonArray.build());
                 break;
-            case OBJECT:
+            default:
                 Object ref = Class.forName(field.getType().getCanonicalName()).cast(field.get(obj));
                 Object vals;
                 Object keys;
@@ -97,8 +99,6 @@ public class Parser implements IParser {
                     value.add(name, parseObject(ref, objectBuilder));
                 }
                 break;
-            default:
-                throw new UnsupportedOperationException("Not primetive type");
         }
         field.setAccessible(false);
     }
