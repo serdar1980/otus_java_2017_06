@@ -12,12 +12,12 @@ import java.util.TreeSet;
 
 public class ATM implements AtmI {
     private TreeSet<CellI> cells;
-    private TreeSet<CellI> cellsState;
+    private MementoStateAtm state;
     private OutStategyI strategy;
 
     public ATM(TreeSet<CellI> cells, OutStategyI strategy) {
         this.cells = cells;
-        this.cellsState = copyCells(cells);
+        state = new MementoStateAtm(copyCells(cells));
         this.strategy = strategy;
     }
 
@@ -30,17 +30,12 @@ public class ATM implements AtmI {
         return cellsTo;
     }
 
-    @Override
-    public Map<Integer, Integer> putMoney(Map<Integer, Integer> money) {
-        return null;
-    }
-
     public boolean withdraw(int money) {
         return strategy.getMoneyFromCells(cells, money);
     }
 
     public void reInit() {
-        this.cells = copyCells(cellsState);
+        this.cells = copyCells(state.getState());
     }
 
     @Override
