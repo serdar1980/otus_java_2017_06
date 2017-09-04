@@ -1,14 +1,13 @@
 package ru.otus.parser;
 
+import static org.junit.Assert.assertTrue;
+
+import java.sql.SQLException;
 import model.UserDataSet;
 import org.junit.Before;
 import org.junit.Test;
 import parser.Iparser;
 import parser.ParserImpl;
-
-import java.sql.SQLException;
-
-import static org.junit.Assert.assertTrue;
 
 public class ParserTest {
     private final static String INSERT_STR = "Insert into users(user_name, age, id) Values('Вася', '30', '100')";
@@ -24,7 +23,7 @@ public class ParserTest {
 
     @Test
     public void getTableShouldReturnString() throws SQLException {
-        assertTrue(parser.getTable(user).equals("user"));
+        assertTrue(parser.getTable(user).equals("users"));
     }
 
     @Test(expected = SQLException.class)

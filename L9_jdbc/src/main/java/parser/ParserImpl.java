@@ -1,38 +1,55 @@
 package parser;
 
 import com.sun.deploy.util.StringUtils;
-
-import javax.persistence.Column;
-import javax.persistence.Table;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.persistence.Column;
+import javax.persistence.Table;
 
 
 public class ParserImpl implements Iparser {
     private Object objectToParse;
     private String SEPARATOR = ", ";
-
+    private Map<String, ObjectStructure> cashParseInformation = new HashMap<>();
+    private String insertQuery;
+    private String updateQuery;
     public ParserImpl() {
 
     }
 
     @Override
     public String getTable(Object objectToParse) throws SQLException {
-        Table table = objectToParse.getClass().getAnnotation(Table.class);
-        if (table != null) {
-            return table.name();
+        ObjectStructure cashObj = cashParseInformation
+            .get(objectToParse.getClass().getCanonicalName());
+        if (cashObj != null) {
+            return cashObj.getTableName();
         } else {
-            throw new SQLException("Entity : " + objectToParse.getClass().getSimpleName() + " does not have Table annotation");
+            Table table = objectToParse.getClass().getAnnotation(Table.class);
+            if (table != null) {
+                cashObj = new ObjectStructure();
+                cashObj.setTableName(table.name());
+                cashParseInformation.put(objectToParse.getClass().getCanonicalName(), cashObj);
+                return table.name();
+            } else {
+                throw new SQLException("Entity : " + objectToParse.getClass().getSimpleName()
+                    + " does not have Table annotation");
+            }
         }
-
     }
 
     @Override
     public String getFileds(Object objectToParse) throws SQLException {
+        ObjectStructure cashObj = cashParseInformation
+            .get(objectToParse.getClass().getCanonicalName());
+        if (cashObj != null && cashObj.getFields().size() > 0) {
+            return StringUtils.join(cashObj.getFields(), SEPARATOR);
+        }
         List<String> fileds = new ArrayList<>();
         for (Method method : objectToParse.getClass().getMethods()) {
             for (Annotation annotation : method.getAnnotations()) {
@@ -43,6 +60,11 @@ public class ParserImpl implements Iparser {
             }
         }
         if (fileds.size() > 0) {
+            if (cashObj == null) {
+                cashObj = new ObjectStructure();
+            }
+            cashObj.setFields(fileds);
+            cashParseInformation.put(objectToParse.getClass().getCanonicalName(), cashObj);
             return StringUtils.join(fileds, SEPARATOR);
         } else {
             throw new SQLException("Entity : " + objectToParse.getClass().getSimpleName() + " does not have Column annotation");
@@ -51,34 +73,44 @@ public class ParserImpl implements Iparser {
 
     @Override
     public String getQueryForInsert(Object objectToParse) throws SQLException {
-        StringBuilder query = new StringBuilder("Insert into ")
+        if (insertQuery != null) {
+            return insertQuery;
+        } else {
+            StringBuilder query = new StringBuilder("Insert into ")
                 .append(getTable(objectToParse))
                 .append("(")
                 .append(getFileds(objectToParse))
                 .append(") Values(");
-        String separator = "";
-        try {
-            for (Method method : objectToParse.getClass().getMethods()) {
-                for (Annotation annotation : method.getAnnotations()) {
-                    if (annotation.annotationType().equals(Column.class)) {
-                        Object ret = method.invoke(objectToParse, new Object[]{});
-                        query.append(separator);
-                        query.append("'");
-                        query.append(ret);
-                        query.append("'");
-                        separator = ", ";
+            String separator = "";
+            try {
+                for (Method method : objectToParse.getClass().getMethods()) {
+                    for (Annotation annotation : method.getAnnotations()) {
+                        if (annotation.annotationType().equals(Column.class)) {
+                            Object ret = method.invoke(objectToParse, new Object[]{});
+                            query.append(separator);
+                            query.append("'");
+                            query.append(ret);
+                            query.append("'");
+                            separator = ", ";
+                        }
                     }
                 }
+            } catch (InvocationTargetException | IllegalAccessException ex) {
+                throw new SQLException(ex.getMessage());
             }
-        } catch (InvocationTargetException | IllegalAccessException ex) {
-            throw new SQLException(ex.getMessage());
+            query.append(")");
+            return query.toString();
         }
-        query.append(")");
-        return query.toString();
     }
 
     @Override
     public String getQueryForUpdate(Object objectToParse) throws SQLException {
+        StringBuilder insertQueryBuilder = new StringBuilder("Insert into ")
+            .append(getTable(objectToParse))
+            .append("(")
+            .append(getFileds(objectToParse))
+            .append(") Values(");
+
         StringBuilder query = new StringBuilder("Update ")
                 .append(getTable(objectToParse))
                 .append(" SET ");
@@ -100,7 +132,13 @@ public class ParserImpl implements Iparser {
                             query.append("'");
                             query.append(ret);
                             query.append("'");
+
+                            insertQueryBuilder.append(separator);
+                            insertQueryBuilder.append("'");
+                            insertQueryBuilder.append(ret);
+                            insertQueryBuilder.append("'");
                             separator = ", ";
+
                         }
                     }
                 }
@@ -109,6 +147,8 @@ public class ParserImpl implements Iparser {
             throw new SQLException(ex.getMessage());
         }
         query.append(where);
+        insertQueryBuilder.append(")");
+        insertQuery = insertQueryBuilder.toString();
         return query.toString();
     }
 
