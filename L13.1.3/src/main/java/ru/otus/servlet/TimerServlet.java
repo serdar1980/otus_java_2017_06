@@ -2,9 +2,12 @@ package ru.otus.servlet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,25 +31,18 @@ public class TimerServlet extends HttpServlet {
     @Autowired
     private ApplicationContext context;
 
-    /*
-    public void init() {
-        //TODO: Create one context for the application. Inject beans.
+    private WebApplicationContext springContext;
 
-        if (context == null) {
-            System.out.println("context was null");
-            context = new ClassPathXmlApplicationContext("SpringBeans.xml");
-        }
-        timeService = (TimeService) context.getBean("timeService");
+    @Override
+    public void init(final ServletConfig config) throws ServletException {
+        super.init(config);
+        springContext = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
+        final AutowireCapableBeanFactory beanFactory = springContext.getAutowireCapableBeanFactory();
+        beanFactory.autowireBean(this);
     }
-    */
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        context = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
-        if (timeService == null) {
-            System.out.println("timeService was null");
-            timeService = (TimeService) context.getBean("timeService");
-        }
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put(REFRESH_VARIABLE_NAME, String.valueOf(PERIOD_MS));
@@ -57,6 +53,4 @@ public class TimerServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
     }
-
-
 }
