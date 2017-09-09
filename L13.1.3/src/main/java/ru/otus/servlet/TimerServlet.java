@@ -1,20 +1,18 @@
 package ru.otus.servlet;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 @Configurable
 public class TimerServlet extends HttpServlet {
@@ -35,10 +33,7 @@ public class TimerServlet extends HttpServlet {
 
     @Override
     public void init(final ServletConfig config) throws ServletException {
-        super.init(config);
-        springContext = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
-        final AutowireCapableBeanFactory beanFactory = springContext.getAutowireCapableBeanFactory();
-        beanFactory.autowireBean(this);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     public void doGet(HttpServletRequest request,
