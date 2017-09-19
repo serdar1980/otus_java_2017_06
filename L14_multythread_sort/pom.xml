@@ -6,12 +6,12 @@
 
     <!-- Project Object Model -->
 
-    <name>l1.maven</name>
-    <description>Code example for maven</description>
+    <name>L14_multythread_sort</name>
+    <description>Code example for annotation</description>
 
     <developers>
         <developer>
-            <name>tully</name>
+            <name>serdar1980</name>
         </developer>
     </developers>
 
@@ -19,7 +19,7 @@
     <!--parent>*</parent-->
 
     <groupId>ru.otus</groupId>
-    <artifactId>l1.maven</artifactId>
+    <artifactId>L14_multythread_sort</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -27,16 +27,12 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <net.sf.opencsv.version>2.3</net.sf.opencsv.version>
-        <project.mainClass>ru.otus.lottery.Main</project.mainClass>
+        <project.mainClass>ru.otus.Main</project.mainClass>
         <project.Jar.Name>${name}</project.Jar.Name>
-    </properties>
+        <java.bootstrap.classes>${java.home}/lib/rt.jar</java.bootstrap.classes>
+   </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>net.sf.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>${net.sf.opencsv.version}</version>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -47,26 +43,6 @@
     <build>
         <finalName>${project.Jar.Name}</finalName>
         <plugins>
-            <!-- <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-jar-plugin</artifactId>
-               <executions>
-                   <execution>
-                       <id>maven-assembly-plugin</id>
-                       <phase>packageSmall</phase>
-                       <goals>
-                           <goal>jar</goal>
-                       </goals>
-                   </execution>
-               </executions>
-               <configuration>
-                   <archive>
-                       <manifest>
-                           <mainClass>ru.otus.lottery.Main</mainClass>
-                       </manifest>
-                   </archive>
-               </configuration>
-           </plugin-->
             <!-- Copy libs to jar -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
