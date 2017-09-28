@@ -17,7 +17,7 @@ public class ParserTest {
 
     @Before
     public void startUp() {
-        user = new UserDataSet(100, "Вася", 30);
+        user = new UserDataSet(100L, "Вася", 30);
         parser = new ParserImpl();
     }
 

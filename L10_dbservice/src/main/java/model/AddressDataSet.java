@@ -9,6 +9,18 @@ import javax.persistence.Table;
 public class AddressDataSet extends DataSet{
     private String street;
 
+    public AddressDataSet() {
+
+    }
+    public AddressDataSet( String street) {
+        this(null, street);
+    }
+
+    public AddressDataSet(Long id, String street) {
+        super(id);
+        this.street = street;
+    }
+
     @Column(name = "street")
     public String getStreet() {
         return street;

@@ -25,6 +25,7 @@ public class JDBCDBService implements DBService {
     @Override
     public void save(DataSet dataSet) {
         try {
+
             executor.save(dataSet, parser);
         }catch (Exception ex){
             //TODO log exception and throw;

@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class UserDataSet extends DataSet {
-    @Column(name = "id")
+
     private String name;
 
     private Date lastDateUse;
@@ -27,7 +27,12 @@ public class UserDataSet extends DataSet {
     public UserDataSet() {
     }
 
-    public UserDataSet(long id, String name, Integer age) {
+
+    public UserDataSet(String name, Integer age) {
+        this(null, name, age);
+    }
+
+    public UserDataSet(Long id, String name, Integer age) {
         super(id);
         this.name = name;
         this.lastDateUse = new Date();
@@ -60,6 +65,27 @@ public class UserDataSet extends DataSet {
 
     public void setLastDateUse(Date lastDateUse) {
         this.lastDateUse = lastDateUse;
+    }
+
+    @Column(name = "address_id")
+    public AddressDataSet getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressDataSet address) {
+        this.address = address;
+    }
+
+
+    public List<PhoneDataSet> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<PhoneDataSet> phones) {
+        for(PhoneDataSet phone : phones){
+            phone.setUser(this);
+        }
+        this.phones = phones;
     }
 
     @Override

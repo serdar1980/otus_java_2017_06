@@ -1,7 +1,10 @@
 package handler.parser;
 
 import com.sun.deploy.util.StringUtils;
+import model.DataSet;
+
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
@@ -41,6 +44,31 @@ public class ParserImpl implements Iparser {
                     + " does not have Table annotation");
             }
         }
+    }
+
+    @Override
+    public Map<Object, String> getOneToOneRelationQueryForInsert(Object objectToParse) {
+        Map<Object, String> res = new HashMap<>();
+        for(Field field : objectToParse.getClass().getDeclaredFields()){
+            Class type = field.getType();
+
+        }
+        return res;
+    }
+
+    @Override
+    public Map<String, String> getManyToOneRelationQueryForInsert(Object objectToParse) {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getOneToOneRelationQueryForUpdate(Object objectToParse) {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getManyToOneRelationQueryForUpdate(Object objectToParse) {
+        return null;
     }
 
     @Override
@@ -86,7 +114,11 @@ public class ParserImpl implements Iparser {
                 for (Method method : objectToParse.getClass().getMethods()) {
                     for (Annotation annotation : method.getAnnotations()) {
                         if (annotation.annotationType().equals(Column.class)) {
+
                             Object ret = method.invoke(objectToParse, new Object[]{});
+                            if(ret instanceof DataSet){
+                                ret = ((DataSet) ret).getId();
+                            }
                             query.append(separator);
                             query.append("'");
                             query.append(ret);

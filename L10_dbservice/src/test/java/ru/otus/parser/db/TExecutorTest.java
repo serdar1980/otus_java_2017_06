@@ -30,7 +30,7 @@ public class TExecutorTest {
         System.out.println("Table created");
         stm.execute("insert into users (user_name) values ('tully')");
         System.out.println("User added");
-        user = new UserDataSet(2, "serdar", 37);
+        user = new UserDataSet(2L, "serdar", 37);
         executor = new TExecutor(conn);
     }
 

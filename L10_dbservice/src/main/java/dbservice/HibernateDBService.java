@@ -30,8 +30,8 @@ public class HibernateDBService implements DBService {
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
         configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/db_example");
-        configuration.setProperty("hibernate.connection.username", "tully");
-        configuration.setProperty("hibernate.connection.password", "tully");
+        configuration.setProperty("hibernate.connection.username", "project");
+        configuration.setProperty("hibernate.connection.password", "project");
         configuration.setProperty("hibernate.show_sql", "true");
         configuration.setProperty("hibernate.hbm2ddl.auto", "create");
         configuration.setProperty("hibernate.connection.useSSL", "false");
@@ -60,15 +60,9 @@ public class HibernateDBService implements DBService {
 
     @Override
     public <T extends DataSet> DataSet read(long id, Class clazz) {
-        return null;
-    }
-
-
-
-    /*public <T extends DataSet> T read(long id, Class clazz) {
         Session session = sessionFactory.openSession();
         return (T) session.load(clazz, id);
-    }*/
+    }
 
     public DataSet readByName(String name, Class clazz) {
         return runInSession(session -> {
