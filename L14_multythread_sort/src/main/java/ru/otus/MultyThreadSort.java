@@ -15,19 +15,19 @@ public class MultyThreadSort {
         if (arr.length == 1) {
             return arr;
         }
-        Integer[] res = new Integer[arr.length];
         fillList(arr);
         exec();
-        fillRes(res);
+        Integer[] res = fillRes(arr.length);
        // System.out.println("FutureTask1 output=" + Arrays.toString(res));
-        Arrays.sort(res);
+        //Arrays.sort(res);
         return res;
     }
 
-    private void fillRes(Integer[] res) {
+    private Integer[] fillRes(Integer numOfElements) {
         boolean isDone = true;
         int count = 1;
         int startFillArr = 0;
+        Integer[] tempRes=null;
         while (true) {
             isDone = true;
             try {
@@ -37,25 +37,37 @@ public class MultyThreadSort {
                     }
                 }
 
+                Integer[] temp;
                 Iterator iter = futureTasks.iterator();
                 if (isDone) {
                     while (iter.hasNext()) {
                         FutureTask<Integer[]> task = (FutureTask<Integer[]>) iter.next();
-                        Integer[] temp = task.get();
+                        temp = task.get();
                         if (temp != null) {
                             task.cancel(true);
                             count++;
+                            /*
                             System.arraycopy(temp, 0, res, startFillArr, temp.length);
                             startFillArr += temp.length;
+                            Arrays.sort(res);
+                            */
+                            if(tempRes != null){
+                                if(tempRes.length> temp.length){
+                                    tempRes = merge(temp, tempRes);
+                                }else{
+                                    tempRes = merge(tempRes, temp);
+                                }
+                            }else{
+                                tempRes =temp;
+                            }
                            // System.out.println("FutureTask output=" + Arrays.toString(temp));
                             iter.remove();
                         }
                     }
 
                 }
-                if (startFillArr >= res.length) {
-                    ;
-                    ;
+
+                if (tempRes != null && tempRes.length == numOfElements) {
                     executor.shutdown();
                     break;
                 }
@@ -66,6 +78,7 @@ public class MultyThreadSort {
 //                // do nothing
 //            }
         }
+        return tempRes;
     }
 
     private void exec() {
@@ -87,5 +100,34 @@ public class MultyThreadSort {
             futureTasks.add(task);
             processed +=range;
         }
+    }
+    private Integer[] merge(Integer[] left, Integer[] right) {
+
+        int leftSize = left.length;
+        int rightSize = right.length;
+        Integer[] arr = new Integer[leftSize+rightSize];
+        int i = 0, j = 0, k = 0;
+        while (i < leftSize && j < rightSize) {
+            if (left[i] <= right[j]) {
+                arr[k] = left[i];
+                i++;
+                k++;
+            } else {
+                arr[k] = right[j];
+                k++;
+                j++;
+            }
+        }
+        while (i < leftSize) {
+            arr[k] = left[i];
+            k++;
+            i++;
+        }
+        while (j < rightSize) {
+            arr[k] = right[j];
+            k++;
+            j++;
+        }
+        return arr;
     }
 }
