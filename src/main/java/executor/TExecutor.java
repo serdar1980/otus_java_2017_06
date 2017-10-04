@@ -35,6 +35,7 @@ public class TExecutor {
                 rs.close();
             }
             insertQuery = parser.getQueryForInsert(dataSet);
+            System.out.println(insertQuery);
             PreparedStatement stmtInsert = connection.prepareStatement(insertQuery, generatedColumns);
             stmtInsert.executeUpdate();
             ResultSet rs = stmtInsert.getGeneratedKeys();

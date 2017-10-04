@@ -29,7 +29,7 @@ public class JDBCDBService implements DBService {
             executor.save(dataSet, parser);
         }catch (Exception ex){
             //TODO log exception and throw;
-
+            ex.printStackTrace();
         }
     }
 

@@ -156,14 +156,25 @@ public class ParserImpl implements Iparser {
                         Column column = (Column) annotation;
                         if (column.name().toLowerCase().equals("id")) {
                             where = " Where id = '" + ret + "'";
+
+                            insertQueryBuilder.append(separator);
+                            insertQueryBuilder.append("'");
+                            insertQueryBuilder.append(ret);
+                            insertQueryBuilder.append("'");
+                            separator = ", ";
                         } else {
                             query.append(separator);
+                            if(ret instanceof DataSet){
+                                ret = ((DataSet) ret).getId();
+                            }
 
                             query.append(column.name());
                             query.append(" = ");
                             query.append("'");
                             query.append(ret);
                             query.append("'");
+
+
 
                             insertQueryBuilder.append(separator);
                             insertQueryBuilder.append("'");

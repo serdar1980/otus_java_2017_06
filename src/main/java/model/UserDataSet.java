@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class UserDataSet extends DataSet {
-
+    @Column(name = "user_name")
     private String name;
 
     private Date lastDateUse;
