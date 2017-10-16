@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Admin</title>
+</head>
+<body>
+<div class="top">
+    <br/>
+    <a href="logout">LogOut</a>
+</div>
+<div>
+    <form action="/admin" method="POST">
+        findUser: <input type="text" name="userId"/>
+        <input type="submit" value="submit">
+    </form>
+</div>
+
+<#if userName??>
+    ${userName}, нашелся?
+</#if>
+<div>
+    cacheHit : ${cacheHit}
+</div>
+<div>
+    cacheMiss : ${cacheMiss}
+</div>
+
+</body>
+</html>

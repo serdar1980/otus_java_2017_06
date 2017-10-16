@@ -29,8 +29,25 @@
         <net.sf.opencsv.version>2.3</net.sf.opencsv.version>
         <project.mainClass>ru.otus.Main</project.mainClass>
         <project.Jar.Name>${name}</project.Jar.Name>
+        <jetty.version>9.4.5.v20170502</jetty.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.20</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
