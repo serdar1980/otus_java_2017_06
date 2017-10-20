@@ -1,7 +1,5 @@
 package ru.otus.web.servlet;
 
-<<<<<<< HEAD
-=======
 import cacheengine.CacheEngine;
 import cacheengine.CacheEngineImpl;
 import dbservice.CacheableDBService;
@@ -11,23 +9,11 @@ import model.DataSet;
 import model.PhoneDataSet;
 import model.UserDataSet;
 
->>>>>>> Add web server
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-<<<<<<< HEAD
-import java.util.HashMap;
-import java.util.Map;
-
-public class AdminServlet extends HttpServlet {
-
-    private static final String DEFAULT_USER_NAME = "UNKNOWN";
-    private static final String ADMIN_PAGE_TEMPLATE = "admin.html";
-
-    private static Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
-=======
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,20 +32,15 @@ public class AdminServlet extends HttpServlet {
 
 
     private static Map<String, Object> createPageVariablesMap(HttpServletRequest request, DataSet user) {
->>>>>>> Add web server
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("method", request.getMethod());
         pageVariables.put("URL", request.getRequestURL().toString());
         pageVariables.put("locale", request.getLocale());
         pageVariables.put("sessionId", request.getSession().getId());
         pageVariables.put("parameters", request.getParameterMap().toString());
-<<<<<<< HEAD
-
-=======
         pageVariables.put("cacheHit", dbServiceForCache.getHitCount());
         pageVariables.put("cacheMiss", dbServiceForCache.getMissCount());
         pageVariables.put("userInfo", (user != null) ? user.toString() : null);
->>>>>>> Add web server
         //let's get login from session
         String login = (String) request.getSession().getAttribute(LoginServlet.LOGIN_PARAMETER_NAME);
         pageVariables.put("login", login != null ? login : DEFAULT_USER_NAME);
@@ -67,12 +48,6 @@ public class AdminServlet extends HttpServlet {
         return pageVariables;
     }
 
-<<<<<<< HEAD
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
-
-        Map<String, Object> pageVariables = createPageVariablesMap(request);
-=======
     private static void someWorkDb() {
         List<PhoneDataSet> testerPhones = new ArrayList<>();
         testerPhones.add(new PhoneDataSet("89080980"));
@@ -113,7 +88,6 @@ public class AdminServlet extends HttpServlet {
         Long searchId = Long.valueOf(paramUserId);
         DataSet user1 = dbServiceForCache.read(searchId, UserDataSet.class);
         Map<String, Object> pageVariables = createPageVariablesMap(request, user1);
->>>>>>> Add web server
 
         response.getWriter().println(TemplateProcessor.instance().getPage(ADMIN_PAGE_TEMPLATE, pageVariables));
 
